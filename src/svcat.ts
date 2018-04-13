@@ -19,6 +19,28 @@ export async function invokeWithProgress(command : string, progressMessage: stri
     });
 }
 
+const getSharedTerminal = (() => {
+    let sharedTerminal: vscode.Terminal | undefined;
+    return () => {
+        if (!sharedTerminal) {
+            sharedTerminal = vscode.window.createTerminal('svcat');
+            const disposable = vscode.window.onDidCloseTerminal((terminal) => {
+                if (terminal === sharedTerminal) {
+                    sharedTerminal = undefined;
+                    disposable.dispose();
+                }
+            });
+        }
+        return sharedTerminal;
+    };
+})();
+
+export function invokeInTerminal(command : string, terminalName? : string) : void {
+    const terminal = terminalName ? vscode.window.createTerminal(terminalName) : getSharedTerminal();
+    terminal.sendText(command);
+    terminal.show();
+}
+
 const WINDOWS : string = 'win32';
 
 function isWindows() : boolean {

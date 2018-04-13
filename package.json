@@ -13,12 +13,52 @@
     "activationEvents": [
         "onView:extension.vsKubernetesExplorer",
         "onLanguage:helm",
-        "onLanguage:yaml"
+        "onLanguage:yaml",
+        "onCommand:extension.vsSvcatGet",
+        "onCommand:extension.vsSvcatDescribe"
     ],
     "main": "./out/src/extension",
     "contributes": {
         "commands": [
-        ]
+            {
+                "command": "extension.vsSvcatGet",
+                "title": "Get",
+                "category": "Svcat"
+            },
+            {
+                "command": "extension.vsSvcatDescribe",
+                "title": "Describe",
+                "category": "Svcat"
+            }
+        ],
+        "menus": {
+            "view/item/context": [
+                {
+                    "command": "extension.vsSvcatGet",
+                    "when": "view == extension.vsKubernetesExplorer && viewItem == vsSvcat"
+                },
+                {
+                    "command": "extension.vsSvcatDescribe",
+                    "when": "view == extension.vsKubernetesExplorer && viewItem == vsSvcat.instance",
+                    "group": "0"
+                },
+                {
+                    "command": "extension.vsKubernetesCopy",
+                    "when": "view == extension.vsKubernetesExplorer && viewItem == vsSvcat.instance",
+                    "group": "1"
+                }
+            ],
+            "commandPalette": [
+                {
+                    "command": "extension.vsSvcatGet",
+                    "when": "view == extension.vsKubernetesExplorer"
+                },
+                {
+                    "command": "extension.vsSvcatDescribe",
+                    "when": "view == extension.vsKubernetesExplorer"
+                }
+            ]
+        }
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",

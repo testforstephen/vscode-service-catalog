@@ -3,7 +3,8 @@
 import * as vscode from 'vscode';
 
 import * as explorer from './explorer';
-import { KubernetesExplorerDataProviderRegistry } from './explorer.api';
+import { KubernetesExplorerDataProviderRegistry, KubernetesObject } from './explorer.api';
+import * as svcat from './svcat';
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
     console.log('Congratulations, your extension "vscode-service-catalog" is now active!');
@@ -14,6 +15,9 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
         explorerRegistry.register(new explorer.ServiceCatalogProvider());
         await vscode.commands.executeCommand("extension.vsKubernetesRefreshExplorer");
     }
+
+    vscode.commands.registerCommand("extension.vsSvcatGet", svcatGet);
+    vscode.commands.registerCommand("extension.vsSvcatDescribe", svcatDescribe);
 }
 
 export function deactivate() {
@@ -31,4 +35,12 @@ async function getKubernetesExplorerRegistry(): Promise<KubernetesExplorerDataPr
             break;
         }
     }
+}
+
+function svcatGet(explorerNode: KubernetesObject) {
+    svcat.invokeInTerminal(`svcat get instance`);
+}
+
+function svcatDescribe(explorerNode: KubernetesObject) {
+    svcat.invokeInTerminal(`svcat describe instance ${explorerNode.id} --traverse`);
 }

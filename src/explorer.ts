@@ -32,7 +32,7 @@ export class ServiceCatalogFolder implements KubernetesObject {
 
     getTreeItem(): vscode.TreeItem | Thenable<vscode.TreeItem> {
         const treeItem = new vscode.TreeItem(this.displayName, vscode.TreeItemCollapsibleState.Collapsed);
-        treeItem.contextValue = `vsKubernetes.${this.id}`;
+        treeItem.contextValue = `vsSvcat`;
         return treeItem;
     }
 }
@@ -47,7 +47,7 @@ export class ServiceCatalogResource implements KubernetesObject {
 
     getTreeItem(): vscode.TreeItem | Thenable<vscode.TreeItem> {
         const treeItem = new vscode.TreeItem(this.id, vscode.TreeItemCollapsibleState.None);
-        treeItem.contextValue = `vsKubernetes.svcat.${this.kind}`;
+        treeItem.contextValue = `vsSvcat.${this.kind}`;
         return treeItem;
     }
 }
