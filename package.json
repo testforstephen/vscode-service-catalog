@@ -1,0 +1,44 @@
+{
+    "name": "vscode-service-catalog",
+    "displayName": "VSCode Service Catalog",
+    "description": "",
+    "version": "0.0.1",
+    "publisher": "Microsoft",
+    "engines": {
+        "vscode": "^1.21.1"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onView:extension.vsKubernetesExplorer",
+        "onLanguage:helm",
+        "onLanguage:yaml"
+    ],
+    "main": "./out/src/extension",
+    "contributes": {
+        "commands": [
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    },
+    "extensionDependencies": [
+        "ms-kubernetes-tools.vscode-kubernetes-tools"
+    ],
+    "devDependencies": {
+        "typescript": "^2.6.1",
+        "vscode": "^1.1.6",
+        "tslint": "^5.8.0",
+        "@types/node": "^7.0.43",
+        "@types/mocha": "^2.2.42"
+    },
+    "dependencies": {
+        "@types/shelljs": "^0.7.8",
+        "shelljs": "^0.8.1"
+    }
+}
