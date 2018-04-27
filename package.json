@@ -1,84 +1,105 @@
 {
-    "name": "vscode-service-catalog",
-    "displayName": "VSCode Service Catalog",
-    "description": "",
-    "version": "0.0.1",
-    "publisher": "Microsoft",
-    "engines": {
-        "vscode": "^1.21.1"
-    },
-    "categories": [
-        "Other"
+  "name": "vscode-service-catalog",
+  "displayName": "VSCode Service Catalog",
+  "description": "",
+  "version": "0.0.1",
+  "publisher": "Microsoft",
+  "engines": {
+    "vscode": "^1.21.1"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onView:extension.vsKubernetesExplorer",
+    "onLanguage:helm",
+    "onLanguage:yaml",
+    "onCommand:extension.vsSvcatGet",
+    "onCommand:extension.vsSvcatDescribe"
+  ],
+  "main": "./out/src/extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.vsSvcatGet",
+        "title": "Get",
+        "category": "Svcat"
+      },
+      {
+        "command": "extension.vsSvcatDescribe",
+        "title": "Describe",
+        "category": "Svcat"
+      },
+      {
+        "command": "extension.vsSvcatConnectExternalService",
+        "title": "Connect to External Service",
+        "category": "Svcat"
+      }
     ],
-    "activationEvents": [
-        "onView:extension.vsKubernetesExplorer",
-        "onLanguage:helm",
-        "onLanguage:yaml",
-        "onCommand:extension.vsSvcatGet",
-        "onCommand:extension.vsSvcatDescribe"
-    ],
-    "main": "./out/src/extension",
-    "contributes": {
-        "commands": [
-            {
-                "command": "extension.vsSvcatGet",
-                "title": "Get",
-                "category": "Svcat"
-            },
-            {
-                "command": "extension.vsSvcatDescribe",
-                "title": "Describe",
-                "category": "Svcat"
-            }
-        ],
-        "menus": {
-            "view/item/context": [
-                {
-                    "command": "extension.vsSvcatGet",
-                    "when": "view == extension.vsKubernetesExplorer && viewItem == vsSvcat"
-                },
-                {
-                    "command": "extension.vsSvcatDescribe",
-                    "when": "view == extension.vsKubernetesExplorer && viewItem == vsSvcat.instance",
-                    "group": "0"
-                },
-                {
-                    "command": "extension.vsKubernetesCopy",
-                    "when": "view == extension.vsKubernetesExplorer && viewItem == vsSvcat.instance",
-                    "group": "1"
-                }
-            ],
-            "commandPalette": [
-                {
-                    "command": "extension.vsSvcatGet",
-                    "when": "view == extension.vsKubernetesExplorer"
-                },
-                {
-                    "command": "extension.vsSvcatDescribe",
-                    "when": "view == extension.vsKubernetesExplorer"
-                }
-            ]
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "extension.vsSvcatConnectExternalService",
+          "when": "explorerResourceIsFolder == true && resourceFilename == charts",
+          "group": "2_helm@100"
         }
-    },
-    "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "npm run compile && node ./node_modules/vscode/bin/test"
-    },
-    "extensionDependencies": [
-        "ms-kubernetes-tools.vscode-kubernetes-tools"
-    ],
-    "devDependencies": {
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.6",
-        "tslint": "^5.8.0",
-        "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42"
-    },
-    "dependencies": {
-        "@types/shelljs": "^0.7.8",
-        "shelljs": "^0.8.1"
+      ],
+      "view/item/context": [
+        {
+          "command": "extension.vsSvcatGet",
+          "when": "view == extension.vsKubernetesExplorer && viewItem == vsSvcat"
+        },
+        {
+          "command": "extension.vsSvcatGet",
+          "when": "view == extension.vsKubernetesExplorer && viewItem == vsSvcat.instance",
+          "group": "0@0"
+        },
+        {
+          "command": "extension.vsSvcatDescribe",
+          "when": "view == extension.vsKubernetesExplorer && viewItem == vsSvcat.instance",
+          "group": "0@1"
+        },
+        {
+          "command": "extension.vsKubernetesCopy",
+          "when": "view == extension.vsKubernetesExplorer && viewItem == vsSvcat.instance",
+          "group": "1"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "extension.vsSvcatGet",
+          "when": "view == extension.vsKubernetesExplorer"
+        },
+        {
+          "command": "extension.vsSvcatDescribe",
+          "when": "view == extension.vsKubernetesExplorer"
+        }
+      ]
     }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "npm run compile && node ./node_modules/vscode/bin/test"
+  },
+  "extensionDependencies": [
+    "ms-kubernetes-tools.vscode-kubernetes-tools"
+  ],
+  "devDependencies": {
+    "typescript": "^2.6.1",
+    "vscode": "^1.1.6",
+    "tslint": "^5.8.0",
+    "@types/node": "^7.0.43",
+    "@types/mocha": "^2.2.42"
+  },
+  "dependencies": {
+    "@types/clipboardy": "^1.1.0",
+    "@types/shelljs": "^0.7.8",
+    "clipboardy": "^1.2.3",
+    "js-yaml": "^3.11.0",
+    "shelljs": "^0.8.1",
+    "stringbuffer": "^1.0.0"
+  }
 }
