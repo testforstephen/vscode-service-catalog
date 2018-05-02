@@ -5,17 +5,15 @@ import { getSvcatResource } from "./svcatUtils";
 
 export class ServiceCatalogProvider implements ExplorerDataProvider {
     async getChildren(parent: KubernetesObject): Promise<KubernetesObject[]> {
-        if (!parent) {
-            return [];
+        if (parent) {
+            switch (parent.constructor.name) {
+                case "KubernetesCluster":
+                    return [
+                        new ServiceCatalogFolder("svcat", "External Services")
+                    ];
+            }
         }
-        switch (parent.constructor.name) {
-            case "KubernetesCluster":
-                return [
-                    new ServiceCatalogFolder("svcat", "External Services")
-                ];
-            default:
-                return [];
-        }
+        return [];
     }
 }
 
